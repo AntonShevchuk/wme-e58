@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.0.4
+// @version      0.0.5
 // @description  Create small previews for chosen map providers
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -73,7 +73,13 @@
 
   APIHelper.bootstrap();
   APIHelper.addTranslation(NAME, TRANSLATION);
-  APIHelper.addStyle('#sidebar #links:before { display: none; }');
+  APIHelper.addStyle(
+    '#sidebar #links:before { display: none; }' +
+    '.e58 legend { cursor:pointer; font-size: 12px; font-weight: bold; width: auto; text-align: right; border: 0; margin: 0; padding: 0 8px; }' +
+    '.e58 fieldset { border: 1px solid #ddd; padding: 4px; }' +
+    '.e58 fieldset p { padding: 0; margin: 0 8px; }' +
+    '.e58 fieldset.e58 div.controls label { white-space: normal; }'
+  );
 
   let ScriptSettings = new Settings(NAME, settings);
 
