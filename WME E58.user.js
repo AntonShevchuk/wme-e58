@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.0.1
+// @version      0.0.2
 // @description  Create small previews for chosen map providers
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -99,7 +99,7 @@
         url: url,
         cache: true,
         dataType: 'script',
-        success: () => console.log(NAME, 'Script loaded')
+        success: () => console.log(NAME, this.uid, 'loaded')
       });
     }
 
