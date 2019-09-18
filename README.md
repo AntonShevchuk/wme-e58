@@ -3,6 +3,10 @@ Create map preview from external sources
 
 ![](screenshot.png)
 
+## Settings
+
+![](settings.png)
+
 ## Links
 Author homepage: http://anton.shevchuk.name/  
 Script homepage: https://github.com/AntonShevchuk/wme-e58/  

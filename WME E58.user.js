@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.0.5
+// @version      0.1.0
 // @description  Create small previews for chosen map providers
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -39,8 +39,17 @@
         description: 'Reload page for apply changes',
         // Description for option `gis`
         gis: '2GIS',
+        // Description for option `Google`
+        google: 'Google',
+        // Description for option `OSM`
+        osm: 'Open Street Map',
         // Description for option `yandex`
         yandex: 'Yandex',
+      },
+      options: {
+        title: 'Options',
+        controls: 'Controls on the map',
+        interactive: 'Interaction with the map'
       }
     },
     'uk': {
@@ -49,7 +58,14 @@
         title: 'Джерела',
         description: 'Оновіть сторінку після внесення змін',
         gis: '2GIS',
+        google: 'Google',
+        osm: 'Open Street Map',
         yandex: 'Яндекс',
+      },
+      options: {
+        title: 'Налаштування',
+        controls: 'Елементи управління',
+        interactive: 'Можливість взаємодіяти с картою'
       }
     },
     'ru': {
@@ -58,7 +74,14 @@
         title: 'Источники',
         description: 'Обновите страницу после изменений',
         gis: '2GIS',
+        google: 'Google',
+        osm: 'Open Street Map',
         yandex: 'Яндекс',
+      },
+      options: {
+        title: 'Настройки',
+        controls: 'Элементи управления',
+        interactive: 'Возможность взаимодествия с картой'
       }
     }
   };
@@ -67,7 +90,13 @@
   const settings = {
     maps: {
       gis: false,
+      google: false,
+      osm: false,
       yandex: false,
+    },
+    options: {
+      controls: false,
+      interactive: false,
     }
   };
 
@@ -92,6 +121,9 @@
       this.map = null;
       this.wrapper = this._wrapper();
       container.append(this.wrapper);
+
+      this.controls = ScriptSettings.get('options').controls;
+      this.interactive = ScriptSettings.get('options').interactive;
     }
 
     /**
@@ -125,7 +157,7 @@
       return W.map.getCenter().transform('EPSG:900913', 'EPSG:4326');
     }
     _zoom() {
-      return W.map.getZoom() + 11;
+      return W.map.getZoom() + 10;
     }
     update() {
       let center = this._center();
@@ -150,13 +182,13 @@
         this.map = DG.map(this._uid(), {
           center: [pos.lat, pos.lon],
           zoom: this._zoom(),
-          fullscreenControl: false,
-          zoomControl: false,
-          boxZoom: false,
-          doubleClickZoom: false,
-          scrollWheelZoom: false,
-          dragging: false,
-          keyboard: false,
+          fullscreenControl: this.controls,
+          zoomControl: this.controls,
+          boxZoom: this.controls,
+          doubleClickZoom: this.interactive,
+          scrollWheelZoom: this.interactive,
+          dragging: this.interactive,
+          keyboard: this.interactive,
         });
         // Setup handler
         W.map.events.register('moveend', null, () => this.update());
@@ -165,6 +197,78 @@
     _update(lat, lon, zoom) {
       this.map.setZoom(zoom);
       this.map.panTo([lat, lon]);
+    }
+  }
+
+  /**
+   * Google Maps
+   */
+  class GooglePreview extends MapPreview {
+    constructor(container) {
+      super('Google', container);
+    }
+    async render() {
+      let pos = this._center();
+      let container = document.getElementById(this._uid());
+      container.style.height = '200px';
+      this.map = new google.maps.Map(container, {
+        center: new google.maps.LatLng(pos.lat, pos.lon),
+        zoom: this._zoom(),
+        mapTypeId: 'roadmap',
+        mapTypeControl: false,
+        streetViewControl: false,
+        disableDefaultUI: !this.controls,
+        gestureHandling: this.interactive ? 'cooperative ' : 'none',
+        zoomControl: this.controls,
+      });
+
+      // Setup handler
+      W.map.events.register('moveend', null, () => this.update());
+    }
+    _update(lat, lon, zoom) {
+      this.map.setZoom(zoom);
+      this.map.setCenter(new google.maps.LatLng(lat, lon));
+    }
+  }
+
+  /**
+   * Open Street Maps
+   */
+  class OSMPreview extends MapPreview {
+    constructor(container) {
+      super('OSM', container);
+    }
+    async render() {
+      let pos = this._center();
+      let container = document.getElementById(this._uid());
+      container.style.height = '200px';
+      this.map = new google.maps.Map(container, {
+        center: new google.maps.LatLng(pos.lat, pos.lon),
+        zoom: this._zoom(),
+        mapTypeId: 'OSM',
+        mapTypeControl: false,
+        streetViewControl: false,
+        disableDefaultUI: !this.controls,
+        gestureHandling: this.interactive ? 'cooperative ' : 'none',
+        zoomControl: this.controls,
+      });
+
+      // Define OSM map type pointing at the OpenStreetMap tile server
+      this.map.mapTypes.set('OSM', new google.maps.ImageMapType({
+        getTileUrl: function(coord, zoom) {
+          return 'https://tile.openstreetmap.org/' + zoom + '/' + coord.x + '/' + coord.y + '.png';
+        },
+        tileSize: new google.maps.Size(256, 256),
+        name: 'OpenStreetMap',
+        maxZoom: 18
+      }));
+
+      // Setup handler
+      W.map.events.register('moveend', null, () => this.update());
+    }
+    _update(lat, lon, zoom) {
+      this.map.setZoom(zoom);
+      this.map.setCenter(new google.maps.LatLng(lat, lon));
     }
   }
 
@@ -182,10 +286,12 @@
         this.map = new ymaps.Map(this._uid(), {
           center: [pos.lat, pos.lon],
           zoom: this._zoom(),
-          controls: []
+          controls: this.controls ? ['default'] : []
         });
         // Disable all controls
-        this.map.behaviors.disable(['drag', 'dblClickZoom', 'scrollZoom', 'rightMouseButtonMagnifier']);
+        if (!this.interactive) {
+          this.map.behaviors.disable(['drag', 'dblClickZoom', 'scrollZoom', 'rightMouseButtonMagnifier']);
+        }
         // Setup handler
         W.map.events.register('moveend', null, () => this.update());
       });
@@ -206,17 +312,30 @@
     tab = helper.createTab(I18n.t(NAME).title);
 
     // Setup providers map settings
-    let fieldset = helper.createFieldset(I18n.t(NAME).maps.title);
+    let fsMap = helper.createFieldset(I18n.t(NAME).maps.title);
     let maps = ScriptSettings.get('maps');
-    fieldset.addText('description', I18n.t(NAME).maps.description);
+    fsMap.addText('description', I18n.t(NAME).maps.description);
     for (let item in maps) {
       if (maps.hasOwnProperty(item)) {
-        fieldset.addCheckbox('maps-' + item, I18n.t(NAME).maps[item], I18n.t(NAME).maps[item], function (event) {
+        fsMap.addCheckbox('maps-' + item, I18n.t(NAME).maps[item], I18n.t(NAME).maps[item], function (event) {
           ScriptSettings.set(['maps', item], event.target.checked);
         }, ScriptSettings.get('maps', item));
       }
     }
-    tab.addElement(fieldset);
+    tab.addElement(fsMap);
+
+    // Setup options for maps
+    let fsOptions = helper.createFieldset(I18n.t(NAME).options.title);
+    let options = ScriptSettings.get('options');
+    for (let item in options) {
+      if (options.hasOwnProperty(item)) {
+        fsOptions.addCheckbox('options-' + item, I18n.t(NAME).options[item], I18n.t(NAME).options[item], function (event) {
+          ScriptSettings.set(['options', item], event.target.checked);
+        }, ScriptSettings.get('options', item));
+      }
+    }
+    tab.addElement(fsOptions);
+
     tab.inject();
 
     // Setup Preview Map element
@@ -230,6 +349,14 @@
     if (ScriptSettings.get('maps').gis) {
       let Gis = new GisPreview(sidebar);
       Gis.render();
+    }
+    if (ScriptSettings.get('maps').google) {
+      let Google = new GooglePreview(sidebar);
+      Google.render();
+    }
+    if (ScriptSettings.get('maps').osm) {
+      let OSM = new OSMPreview(sidebar);
+      OSM.render();
     }
     if (ScriptSettings.get('maps').yandex) {
       let Yandex = new YandexPreview(sidebar);
