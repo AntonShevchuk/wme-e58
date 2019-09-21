@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.2.0
+// @version      0.2.1
 // @description  Create small previews for chosen map providers
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -32,11 +32,13 @@
     'en': {
       // Tab title
       title: 'Maps 🗺',
+      // Tab description
+      description: 'Reload page for apply changes',
       maps: {
         // Fieldset's legend
         title: 'Sources',
         // Fieldset's description
-        description: 'Reload page for apply changes',
+        description: 'To avoid UI issues don\'t use more than two maps providers',
         // Description for option `gis`
         gis: '2GIS',
         // Description for option `Google`
@@ -66,9 +68,10 @@
     },
     'uk': {
       title: 'Карти 🗺',
+      description: 'Оновіть сторінку після внесення змін',
       maps: {
         title: 'Джерела',
-        description: 'Оновіть сторінку після внесення змін',
+        description: 'Для запобігання проблем з інтерфейсом не використовуйте одразу більше ніж дві карти',
         gis: '2GIS',
         google: 'Google',
         here: 'HERE',
@@ -93,9 +96,10 @@
     },
     'ru': {
       title: 'Карты 🗺',
+      description: 'Обновите страницу после изменений',
       maps: {
         title: 'Источники',
-        description: 'Обновите страницу после изменений',
+        description: 'Для избежания проблем с интерфейсом не используйте больше двух карт',
         gis: '2GIS',
         google: 'Google',
         here: 'HERE',
@@ -151,6 +155,7 @@
   APIHelper.addTranslation(NAME, TRANSLATION);
   APIHelper.addStyle(
     '#sidebar #links:before { display: none; }' +
+    '#E58-map-container { max-height: 50vh; }' +
     '.e58 legend { cursor:pointer; font-size: 12px; font-weight: bold; width: auto; text-align: right; border: 0; margin: 0; padding: 0 8px; }' +
     '.e58 fieldset { border: 1px solid #ddd; padding: 4px; }' +
     '.e58 fieldset p { padding: 0; margin: 0 8px !important; }' +
@@ -396,10 +401,10 @@
   function ready() {
     // Setup Tab with options
     helper = new APIHelperUI(NAME);
-    tab = helper.createTab(I18n.t(NAME).title, I18n.t(NAME).maps.description);
+    tab = helper.createTab(I18n.t(NAME).title, I18n.t(NAME).description);
 
     // Setup providers map settings
-    let fsMap = helper.createFieldset(I18n.t(NAME).maps.title);
+    let fsMap = helper.createFieldset(I18n.t(NAME).maps.title, I18n.t(NAME).maps.description);
     let maps = ScriptSettings.get('maps');
     for (let item in maps) {
       if (maps.hasOwnProperty(item)) {
