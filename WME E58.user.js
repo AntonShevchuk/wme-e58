@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.2.1
+// @version      0.2.2
 // @description  Create small previews for chosen map providers
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -453,11 +453,12 @@
     sidebar.className = 'flex-noshrink';
 
     // Injection
-    let before = document.getElementById('links');
+    let content = document.getElementById('sidebarContent');
     if (ScriptSettings.get('position') === 'top') {
-      before = document.getElementById('sidebarContent');
+      document.getElementById('sidebar').insertBefore(sidebar, content);
+    } else {
+      document.getElementById('sidebar').insertBefore(sidebar, content.nextSibling);
     }
-    document.getElementById('sidebar').insertBefore(sidebar, before);
 
     if (ScriptSettings.get('maps').gis) {
       let Gis = new GisPreview(sidebar);
