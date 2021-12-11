@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.3.0
+// @version      0.3.1
 // @description  Create small previews for chosen map providers
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -214,7 +214,7 @@
       return W.map.getCenter().transform('EPSG:900913', 'EPSG:4326');
     }
     _zoom() {
-      return W.map.getZoom() + 10;
+      return W.map.getZoom();
     }
     update() {
       let center = this._center();
@@ -371,7 +371,7 @@
       let pos = this._center();
 
       // Initialize the platform object:
-      var platform = new H.service.Platform({
+      let platform = new H.service.Platform({
         'apikey': 'vmj30nPbru3jmJdcln4' + '-wJe-' + 'w3BH6CrCxHZaku8UbY4'
       });
 
