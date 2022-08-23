@@ -4,6 +4,7 @@
 // @description  Create small previews for chosen map providers
 // @author       Anton Shevchuk
 // @license      MIT License
+// @connect      maps.api.2gis.ru
 // @match        https://www.waze.com/editor*
 // @match        https://www.waze.com/*/editor*
 // @match        https://beta.waze.com/editor*
@@ -231,7 +232,7 @@
     }
 
     async render () {
-      await this.script('https://maps.api.2gis.ua/2.0/loader.js?pkg=basic')
+      await this.script('https://maps.api.2gis.ru/2.0/loader.js?pkg=basic')
       let pos = this._center()
       DG.then(() => {
         this.map = DG.map(this._uid(), {
