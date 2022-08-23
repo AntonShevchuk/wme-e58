@@ -1,11 +1,9 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.3.5
+// @version      0.3.6
 // @description  Create small previews for chosen map providers
 // @author       Anton Shevchuk
 // @license      MIT License
-// @grant        GM.setValue
-// @grant        GM.getValue
 // @match        https://www.waze.com/editor*
 // @match        https://www.waze.com/*/editor*
 // @match        https://beta.waze.com/editor*
