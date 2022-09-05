@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.4.0
+// @version      0.4.1
 // @description  Create small previews for chosen map providers
 // @license      MIT License
 // @author       Anton Shevchuk
@@ -16,10 +16,10 @@
 // @grant        none
 // @connect      maps.api.2gis.ru
 // @connect      vector.hereapi.com
-// @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1083313
-// @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1087270
-// @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1087271
-// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1087272
+// @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1090053
+// @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1090054
+// @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1090055
+// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1090056
 // ==/UserScript==
 
 /* jshint esversion: 8 */
@@ -189,7 +189,7 @@
      */
     async script (url) {
       this.wrapper.style.height = this.settings.get('height') + 'px'
-      return await $.ajax({
+      return $.ajax({
         url: url,
         cache: true,
         dataType: 'script',
