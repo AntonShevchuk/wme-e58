@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.4.4
+// @version      0.4.5
 // @description  Create small previews for chosen map providers
 // @license      MIT License
 // @author       Anton Shevchuk
@@ -16,7 +16,7 @@
 // @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1090053
 // @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1090054
 // @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1101617
-// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1101616
+// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1110180
 // ==/UserScript==
 
 /* jshint esversion: 8 */
