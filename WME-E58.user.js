@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
-// @version      0.4.5
+// @version      0.4.6
 // @description  Create small previews for chosen map providers
 // @license      MIT License
 // @author       Anton Shevchuk
