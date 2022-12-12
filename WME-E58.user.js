@@ -16,7 +16,7 @@
 // @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1090053
 // @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1126584
 // @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1101617
-// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1127617
+// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1127621
 // ==/UserScript==
 
 /* jshint esversion: 8 */
@@ -434,7 +434,7 @@
       settings.set(['height'], event.target.value)
       console.log(event.target)
       addHeightStyle(event.target.value)
-    }, height.min, height.max, settings.get('height'), height.step)
+    }, settings.get('height'), height.min, height.max,  height.step)
     addHeightStyle(settings.get('height'))
 
     tab.addElement(fsPosition)
