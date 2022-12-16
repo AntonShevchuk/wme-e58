@@ -37,9 +37,9 @@
       // Tab title
       title: 'Maps',
       // Tab description
-      description: 'Open small preview modal window',
+      description: 'Open a small preview modal window with the map',
       // Tab help
-      help: 'You can use the Keyboard Shortcuts to open the map preview window. It\'s more convenient than clicking on this button.',
+      help: 'You can use the <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">Keyboard shortcuts</a> to open the map preview window. It\'s more convenient than clicking on this button.',
       maps: {
         // Fieldset's legend
         title: 'Sources',
@@ -60,7 +60,7 @@
     'uk': {
       title: 'Карти',
       description: 'Відкрити маленьку карту',
-      help: 'Використовуйте клавіатурні поєднання клавіш, це значно швидше ніж використовувати ось цю кнопку',
+      help: 'Використовуйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">клавіатурні поєднання клавіш</a>, це значно швидше ніж використовувати ось цю кнопку',
       maps: {
         title: 'Джерела',
         description: 'Оберіть карту для відображення',
@@ -77,7 +77,7 @@
     'ru': {
       title: 'Карты',
       description: 'Открыть маленькую карту',
-      help: 'Используйте комбинации клавиш, и не надо будет клацать вот эту кнопку',
+      help: 'Используйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">комбинации клавиш</a>, и не надо будет клацать вот эту кнопку',
       maps: {
         title: 'Источники',
         description: 'Выберите карту для отображения',
@@ -93,13 +93,12 @@
     }
   }
 
-  const STYLE = '#sidebar #links:before { display: none; }' +
-    '#E58-map-container { max-height: 50vh; }' +
+  const STYLE =
     '.e58 legend { cursor:pointer; font-size: 12px; font-weight: bold; width: auto; text-align: right; border: 0; margin: 0; padding: 0 8px; }' +
     '.e58 fieldset { border: 1px solid #ddd; padding: 4px; }' +
     '.e58 fieldset p { padding: 0; margin: 0 8px !important; }' +
     '.e58 fieldset.e58 div.controls label { white-space: normal; font-weight: 400; }' +
-    'p.e58.e58-text { margin-top: 15px; }' +
+    'div.e58.e58-text { margin: 15px 0; }' +
     'p.e58-info { border-top: 1px solid #ccc; color: #777; font-size: x-small; margin-top: 15px; padding-top: 10px; text-align: center; }'
 
   WMEUI.addTranslation(NAME, TRANSLATION)
@@ -107,10 +106,10 @@
 
   // Default settings
   const SETTINGS = {
-    maps: {
-      google: true,
-      osm: false,
-    },
+    map: 'google',
+    maps: [
+      'google', 'osm'
+    ],
     options: {
       controls: false,
       interactive: false,
@@ -127,7 +126,7 @@
       this.wrapper = this._wrapper()
 
       container.append(this.wrapper)
-      container.style.height = '200px'
+      container.style.height = '256px'
 
       this.settings = settings
       this.controls = settings.get('options', 'controls')
@@ -156,7 +155,7 @@
     _wrapper () {
       let div = document.createElement('div')
       div.id = this._uid()
-      div.style.height = '200px'
+      div.style.height = '256px'
       return div
     }
 
@@ -169,7 +168,7 @@
     }
 
     _zoom () {
-      return W.map.getZoom()
+      return W.map.getZoom() - 1
     }
 
     update () {
@@ -273,19 +272,18 @@
 
       // Setup providers map settings
       let fsMap = this.helper.createFieldset(I18n.t(NAME).maps.title, I18n.t(NAME).maps.description)
-      let maps = SETTINGS.maps
-      for (let item in maps) {
-        if (maps.hasOwnProperty(item)) {
-          fsMap.addRadio(
-            'maps-' + item,
-            I18n.t(NAME).maps[item],
-            I18n.t(NAME).maps[item],
-            () => settings.set(['maps'], item),
-            'maps',
-            item,
-            settings.get('maps') === item
-          )
-        }
+
+      for (let i = 0; i < SETTINGS.maps.length; i++) {
+        let map = SETTINGS.maps[i]
+        fsMap.addRadio(
+          'maps-' + map,
+          I18n.t(NAME).maps[map],
+          I18n.t(NAME).maps[map],
+          () => settings.set(['map'], map),
+          'maps',
+          map,
+          settings.get('map') === map
+        )
       }
       tab.addElement(fsMap)
 
@@ -301,16 +299,13 @@
       }
       tab.addElement(fsOptions)
 
-      tab.addText('text', I18n.t(NAME).help)
+      tab.addDiv('text', I18n.t(NAME).help)
       tab.addButton('preview', I18n.t(NAME).title, '', () => this.toggleMap())
-
       tab.addText(
         'info',
         '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version
       )
-
       tab.inject()
-
     }
 
     /**
@@ -339,10 +334,10 @@
 
       this.log('show preview map – ' + this.settings.get('maps'))
 
-      if (this.settings.get('maps') === 'google') {
+      if (this.settings.get('map') === 'google') {
         let Google = new GooglePreview(map, this.settings)
         Google.render()
-      } else if (this.settings.get('maps') === 'osm') {
+      } else if (this.settings.get('map') === 'osm') {
         let OSM = new OSMPreview(map, this.settings)
         OSM.render()
       } else {
