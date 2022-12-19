@@ -263,44 +263,44 @@
       this.helper = new WMEUIHelper(name)
 
       let tab = this.helper.createTab(
-        I18n.t(NAME).title,
-        I18n.t(NAME).description,
+        I18n.t(name).title,
+        I18n.t(name).description,
         {
           icon: '<i class="w-icon panel-header-component-icon w-icon-map"></i>'
         }
       )
 
       // Setup providers map settings
-      let fsMap = this.helper.createFieldset(I18n.t(NAME).maps.title, I18n.t(NAME).maps.description)
+      let fsMap = this.helper.createFieldset(I18n.t(name).maps.title, I18n.t(name).maps.description)
 
-      for (let i = 0; i < SETTINGS.maps.length; i++) {
-        let map = SETTINGS.maps[i]
+      for (let i = 0; i < settings.maps.length; i++) {
+        let map = settings.maps[i]
         fsMap.addRadio(
           'maps-' + map,
-          I18n.t(NAME).maps[map],
-          I18n.t(NAME).maps[map],
-          () => settings.set(['map'], map),
+          I18n.t(name).maps[map],
+          I18n.t(name).maps[map],
+          () => this.settings.set(['map'], map),
           'maps',
           map,
-          settings.get('map') === map
+          this.settings.get('map') === map
         )
       }
       tab.addElement(fsMap)
 
       // Setup options for maps
-      let fsOptions = this.helper.createFieldset(I18n.t(NAME).options.title)
-      let options = settings.get('options')
+      let fsOptions = this.helper.createFieldset(I18n.t(name).options.title)
+      let options = this.settings.get('options')
       for (let item in options) {
         if (options.hasOwnProperty(item)) {
-          fsOptions.addCheckbox('options-' + item, I18n.t(NAME).options[item], I18n.t(NAME).options[item], function (event) {
-            settings.set(['options', item], event.target.checked)
-          }, settings.get('options', item))
+          fsOptions.addCheckbox('options-' + item, I18n.t(name).options[item], I18n.t(name).options[item], function (event) {
+            this.settings.set(['options', item], event.target.checked)
+          }, this.settings.get('options', item))
         }
       }
       tab.addElement(fsOptions)
 
-      tab.addDiv('text', I18n.t(NAME).help)
-      tab.addButton('preview', I18n.t(NAME).title, '', () => this.toggleMap())
+      tab.addDiv('text', I18n.t(name).help)
+      tab.addButton('preview', I18n.t(name).title, '', () => this.toggleMap())
       tab.addText(
         'info',
         '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version
@@ -318,7 +318,7 @@
       }
 
       /** @type {WMEUIHelperModal} */
-      let modal = this.helper.createModal(I18n.t(NAME).title)
+      let modal = this.helper.createModal(I18n.t(this.name).title)
       // Setup Preview Map element
       let map = modal.addDiv('map-preview').html()
       modal.inject()
@@ -333,7 +333,7 @@
         OSM.render()
       } else {
         // disabled
-        map.innerHTML = '<p>' + I18n.t(NAME).maps.description + '</p>'
+        map.innerHTML = '<p>' + I18n.t(this.name).maps.description + '</p>'
       }
     }
   }
