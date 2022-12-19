@@ -13,7 +13,7 @@
 // @grant        none
 // @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1090053
 // @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1128320
-// @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1101617
+// @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1129908
 // @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1128560
 // ==/UserScript==
 
@@ -258,8 +258,8 @@
    */
   class E58 extends WMEBase {
     constructor (name, settings) {
-      super(name)
-      this.settings = settings
+      super(name, settings)
+
       this.helper = new WMEUIHelper(name)
 
       let tab = this.helper.createTab(
@@ -309,15 +309,6 @@
     }
 
     /**
-     * Handler for window `beforeunload` event
-     * @param {jQuery.Event} event
-     * @return {Null}
-     */
-    onBeforeUnload (event) {
-      this.settings.save()
-    }
-
-    /**
      * Show modal with map preview
      */
     toggleMap() {
@@ -349,11 +340,8 @@
 
   // Main handler
   $(document).on('bootstrap.wme', () => {
-    // Initial settings
-    let settings = new Settings(NAME, SETTINGS)
-
     // Create E58 Instance
-    let Instance = new E58(NAME, settings)
+    let Instance = new E58(NAME, SETTINGS)
 
     // Bind shortcut
     WMEUI.addShortcut(
