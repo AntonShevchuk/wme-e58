@@ -14,7 +14,7 @@
 // @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1090053
 // @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1128320
 // @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1129908
-// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1128560
+// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1132279
 // ==/UserScript==
 
 /* jshint esversion: 8 */
@@ -264,20 +264,18 @@
 
       let tab = this.helper.createTab(
         I18n.t(name).title,
-        I18n.t(name).description,
         {
-          icon: '<i class="w-icon panel-header-component-icon w-icon-map"></i>'
+          icon: 'map'
         }
       )
 
       // Setup providers map settings
-      let fsMap = this.helper.createFieldset(I18n.t(name).maps.title, I18n.t(name).maps.description)
+      let fsMap = this.helper.createFieldset(I18n.t(name).maps.title)
 
       for (let i = 0; i < settings.maps.length; i++) {
         let map = settings.maps[i]
         fsMap.addRadio(
           'maps-' + map,
-          I18n.t(name).maps[map],
           I18n.t(name).maps[map],
           () => this.settings.set(['map'], map),
           'maps',
@@ -292,9 +290,11 @@
       let options = this.settings.get('options')
       for (let item in options) {
         if (options.hasOwnProperty(item)) {
-          fsOptions.addCheckbox('options-' + item, I18n.t(name).options[item], I18n.t(name).options[item], function (event) {
-            this.settings.set(['options', item], event.target.checked)
-          }, this.settings.get('options', item))
+          fsOptions.addCheckbox(
+            'options-' + item,
+            I18n.t(name).options[item],
+            (event) => this.settings.set(['options', item], event.target.checked),
+            this.settings.get('options', item))
         }
       }
       tab.addElement(fsOptions)
