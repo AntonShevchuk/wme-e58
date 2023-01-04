@@ -14,7 +14,7 @@
 // @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1090053
 // @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1128320
 // @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1129908
-// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1132279
+// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1134661
 // ==/UserScript==
 
 /* jshint esversion: 8 */
@@ -287,9 +287,8 @@
 
       // Setup options for maps
       let fsOptions = this.helper.createFieldset(I18n.t(name).options.title)
-      let options = this.settings.get('options')
-      for (let item in options) {
-        if (options.hasOwnProperty(item)) {
+      for (let item in settings.options) {
+        if (settings.options.hasOwnProperty(item)) {
           fsOptions.addCheckbox(
             'options-' + item,
             I18n.t(name).options[item],
