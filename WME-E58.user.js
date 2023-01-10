@@ -322,7 +322,7 @@
       let map = modal.addDiv('map-preview').html()
       modal.inject()
 
-      this.log('show preview map – ' + this.settings.get('maps'))
+      this.log('show preview map – ' + this.settings.get('map'))
 
       if (this.settings.get('map') === 'google') {
         let Google = new GooglePreview(map, this.settings)
