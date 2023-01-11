@@ -13,8 +13,8 @@
 // @grant        none
 // @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1090053
 // @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1135567
-// @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1129908
-// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1137009
+// @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1137043
+// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1137289
 // ==/UserScript==
 
 /* jshint esversion: 8 */
@@ -35,7 +35,7 @@
   const TRANSLATION = {
     'en': {
       // Tab title
-      title: 'Maps',
+      title: 'Map preview',
       // Tab description
       description: 'Open a small preview modal window with the map',
       // Tab help
@@ -58,7 +58,7 @@
       },
     },
     'uk': {
-      title: 'Карти',
+      title: 'Карта',
       description: 'Відкрити маленьку карту',
       help: 'Використовуйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">клавіатурні поєднання клавіш</a>, це значно швидше ніж використовувати ось цю кнопку',
       maps: {
@@ -75,7 +75,7 @@
       },
     },
     'ru': {
-      title: 'Карты',
+      title: 'Карта',
       description: 'Открыть маленькую карту',
       help: 'Используйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">комбинации клавиш</a>, и не надо будет клацать вот эту кнопку',
       maps: {
@@ -265,9 +265,10 @@
       let tab = this.helper.createTab(
         I18n.t(name).title,
         {
-          icon: 'map'
+          image: GM_info.script.icon
         }
       )
+      tab.addText('description', I18n.t(name).description)
 
       // Setup providers map settings
       let fsMap = this.helper.createFieldset(I18n.t(name).maps.title)
@@ -310,8 +311,9 @@
     /**
      * Show modal with map preview
      */
-    toggleMap() {
+    toggleMap () {
       if (document.getElementById('e58-map-preview')) {
+        this.log('hide preview map')
         $('#panel-container a.close-panel').click()
         return
       }
@@ -322,7 +324,7 @@
       let map = modal.addDiv('map-preview').html()
       modal.inject()
 
-      this.log('show preview map – ' + this.settings.get('map'))
+      this.log('show preview map', this.settings.get('map'))
 
       if (this.settings.get('map') === 'google') {
         let Google = new GooglePreview(map, this.settings)
@@ -332,7 +334,7 @@
         OSM.render()
       } else {
         // disabled
-        map.innerHTML = '<p>' + I18n.t(this.name).maps.description + '</p>'
+        map.innerText = I18n.t(this.name).maps.description
       }
     }
   }
@@ -344,11 +346,11 @@
 
     // Bind shortcut
     WMEUI.addShortcut(
-      I18n.t(NAME).title,
+      NAME,
       I18n.t(NAME).description,
       NAME,
-      I18n.t(NAME).title,
-      'Z',
+      I18n.t(NAME).title + ' 🗺️',
+      'A+M',
       () => Instance.toggleMap(),
     )
   })
