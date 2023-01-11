@@ -39,7 +39,7 @@
       // Tab description
       description: 'Open a small preview modal window with the map',
       // Tab help
-      help: 'You can use the <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">Keyboard shortcuts</a> to open the map preview window. It\'s more convenient than clicking on this button.',
+      help: 'You can use the <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">Keyboard shortcuts</a> to open the map preview window. It\'s more convenient than clicking on the button.',
       maps: {
         // Fieldset's legend
         title: 'Sources',
@@ -60,7 +60,7 @@
     'uk': {
       title: 'Карта',
       description: 'Відкрити маленьку карту',
-      help: 'Використовуйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">клавіатурні поєднання клавіш</a>, це значно швидше ніж використовувати ось цю кнопку',
+      help: 'Використовуйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">гарячі клавіши</a>, це значно швидше ніж використовувати кнопку',
       maps: {
         title: 'Джерела',
         description: 'Оберіть карту для відображення',
@@ -77,7 +77,7 @@
     'ru': {
       title: 'Карта',
       description: 'Открыть маленькую карту',
-      help: 'Используйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">комбинации клавиш</a>, и не надо будет клацать вот эту кнопку',
+      help: 'Используйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">комбинации клавиш</a>, и не надо будет клацать кнопку',
       maps: {
         title: 'Источники',
         description: 'Выберите карту для отображения',
@@ -269,6 +269,8 @@
         }
       )
       tab.addText('description', I18n.t(name).description)
+      let button = tab.addButton('preview', I18n.t(name).title, '', () => this.toggleMap())
+      button.html().className += ' waze-btn-blue'
 
       // Setup providers map settings
       let fsMap = this.helper.createFieldset(I18n.t(name).maps.title)
@@ -300,7 +302,6 @@
       tab.addElement(fsOptions)
 
       tab.addDiv('text', I18n.t(name).help)
-      tab.addButton('preview', I18n.t(name).title, '', () => this.toggleMap())
       tab.addText(
         'info',
         '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version
