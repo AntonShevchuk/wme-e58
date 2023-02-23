@@ -3,6 +3,7 @@
 // @name:uk      WME 🇺🇦 E58 Map's previews
 // @version      0.5.2
 // @description  Create small previews for chosen map providers
+// @description:uk Створює невеличку карту для перегляду
 // @license      MIT License
 // @author       Anton Shevchuk
 // @namespace    https://greasyfork.org/users/227648-anton-shevchuk
