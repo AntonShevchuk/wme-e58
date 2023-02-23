@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
+// @name:uk      WME 🇺🇦 E58 Map's previews
 // @version      0.5.2
 // @description  Create small previews for chosen map providers
 // @license      MIT License
