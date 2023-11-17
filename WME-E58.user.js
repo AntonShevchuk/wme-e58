@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
 // @name:uk      WME 🇺🇦 E58 Map's previews
-// @version      0.5.4
+// @version      0.6.0
 // @description  Create small previews for chosen map providers
 // @description:uk Створює невеличку карту для перегляду
 // @license      MIT License
@@ -16,7 +16,7 @@
 // @require      https://greasyfork.org/scripts/389765-common-utils/code/CommonUtils.js?version=1090053
 // @require      https://greasyfork.org/scripts/450160-wme-bootstrap/code/WME-Bootstrap.js?version=1218867
 // @require      https://greasyfork.org/scripts/450221-wme-base/code/WME-Base.js?version=1137043
-// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1137289
+// @require      https://greasyfork.org/scripts/450320-wme-ui/code/WME-UI.js?version=1281847
 // ==/UserScript==
 
 /* jshint esversion: 8 */
@@ -96,6 +96,7 @@
   }
 
   const STYLE =
+    '.e58 .header h5 { padding: 0 16px; font-size: 16px }' +
     '.e58 legend { cursor:pointer; font-size: 12px; font-weight: bold; width: auto; text-align: right; border: 0; margin: 0; padding: 0 8px; }' +
     '.e58 fieldset { border: 1px solid #ddd; padding: 4px; }' +
     '.e58 fieldset p { padding: 0; margin: 0 8px !important; }' +
@@ -166,7 +167,12 @@
     }
 
     _center () {
-      return W.map.getCenter().transform('EPSG:900913', 'EPSG:4326')
+      let center = new OpenLayers.Geometry.Point(W.map.getCenter().lon, W.map.getCenter().lat).transform('EPSG:900913', 'EPSG:4326')
+
+      return {
+        lon: center.x,
+        lat: center.y,
+      }
     }
 
     _zoom () {
@@ -322,7 +328,9 @@
       }
 
       /** @type {WMEUIHelperModal} */
-      let modal = this.helper.createModal(I18n.t(this.name).title)
+      let modal = this.helper.createModal(
+        '<h5>' + I18n.t(this.name).title + '</h5>'
+      )
       // Setup Preview Map element
       let map = modal.addDiv('map-preview').html()
       modal.inject()
