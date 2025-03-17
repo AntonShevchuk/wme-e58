@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
 // @name:uk      WME 🇺🇦 E58 Map's previews
-// @version      0.6.2
+// @version      0.6.3
 // @description  Create small previews for chosen map providers
 // @description:uk Створює невеличку карту для перегляду
 // @license      MIT License
@@ -96,7 +96,7 @@
   }
 
   const STYLE =
-    '.e58 .header h5 { padding: 0 16px; font-size: 16px }' +
+    '.e58 .header h5 { padding: 16px 16px 0; font-size: 16px }' +
     '.e58 legend { cursor:pointer; font-size: 12px; font-weight: bold; width: auto; text-align: right; border: 0; margin: 0; padding: 0 8px; }' +
     '.e58 fieldset { border: 1px solid #ddd; padding: 4px; }' +
     '.e58 fieldset p { padding: 0; margin: 0 8px !important; }' +
@@ -329,7 +329,7 @@
 
       /** @type {WMEUIHelperModal} */
       let modal = this.helper.createModal(
-        '<h5>' + I18n.t(this.name).title + '</h5>'
+        I18n.t(this.name).title
       )
       // Setup Preview Map element
       let map = modal.addDiv('map-preview').html()
