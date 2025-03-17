@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
 // @name:uk      WME 🇺🇦 E58 Map's previews
-// @version      0.6.0
+// @version      0.6.2
 // @description  Create small previews for chosen map providers
 // @description:uk Створює невеличку карту для перегляду
 // @license      MIT License
@@ -16,7 +16,7 @@
 // @require      https://update.greasyfork.org/scripts/389765/1090053/CommonUtils.js
 // @require      https://update.greasyfork.org/scripts/450160/1218867/WME-Bootstrap.js
 // @require      https://update.greasyfork.org/scripts/450221/1137043/WME-Base.js
-// @require      https://update.greasyfork.org/scripts/450320/1281847/WME-UI.js
+// @require      https://update.greasyfork.org/scripts/450320/1555192/WME-UI.js
 // ==/UserScript==
 
 /* jshint esversion: 8 */
