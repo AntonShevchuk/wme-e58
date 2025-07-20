@@ -16,8 +16,8 @@ Create map preview from external sources
   <th>Description</th>
 </tr>
 <tr>
-<td align='center'><code>Alt</code>+<code>M</code></td>
-<td>Show/hide small modal window with a map</td>
+<td align='center'><code>Alt</code>+<code>N</code></td>
+<td>Show/hide a small modal window with a map</td>
 </tr>
 </table>
 
