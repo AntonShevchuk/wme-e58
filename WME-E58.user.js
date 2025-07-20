@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E58 Map's previews
 // @name:uk      WME 🇺🇦 E58 Map's previews
-// @version      0.6.4
+// @version      0.6.5
 // @description  Create small previews for chosen map providers
 // @description:uk Створює невеличку карту для перегляду
 // @license      MIT License
@@ -323,7 +323,7 @@
     toggleMap () {
       if (document.getElementById('e58-map-preview')) {
         this.log('hide preview map')
-        $('#panel-container a.close-panel').click()
+        $('.wme-ui-panel.e58 button.wme-ui-close-panel').click()
         return
       }
 
@@ -361,7 +361,7 @@
       I18n.t(NAME).description,
       NAME,
       I18n.t(NAME).title + ' 🗺️',
-      'A+M',
+      'A+N',
       () => Instance.toggleMap(),
     )
   })
