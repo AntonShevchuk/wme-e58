@@ -25,5 +25,6 @@ Create map preview from external sources
 
 Author homepage: https://anton.shevchuk.name/  
 Author pet projects: https://hohli.com/  
+Support author: https://donate.hohli.com/  
 Script homepage: https://github.com/AntonShevchuk/wme-e58/  
 GreasyFork: https://greasyfork.org/uk/scripts/390207-wme-e58-map-s-previews  

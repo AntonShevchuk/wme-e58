@@ -28,8 +28,7 @@
 /* global WME, WMEBase, WMEUI, WMEUIHelper */
 /* global Container, Settings, SimpleCache, Tools  */
 /* global H, google */
-
-// import type { Node$1, Segment, Venue, WmeSDK } from "wme-sdk-typings";
+/* global Node$1, Segment, Venue, VenueAddress, WmeSDK */
 
 (function () {
   'use strict'
