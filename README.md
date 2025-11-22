@@ -1,4 +1,4 @@
-# WME E58
+# WME 🇺🇦 E58
 
 Create map preview from external sources
 
