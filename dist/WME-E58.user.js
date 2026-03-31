@@ -101,13 +101,14 @@
      * Basic Map class
      */
     class MapPreview {
-        constructor(uid, container, settings) {
+        constructor(uid, container, settings, wmeSDK) {
             this.uid = uid;
             this.map = null;
             this.wrapper = this._wrapper();
             container.append(this.wrapper);
             container.style.height = '256px';
             this.settings = settings;
+            this.wmeSDK = wmeSDK;
             this.controls = settings.get('options', 'controls');
             this.interactive = settings.get('options', 'interactive');
         }
@@ -139,14 +140,14 @@
             return NAME + '-map-' + this.uid;
         }
         _center() {
-            let center = new OpenLayers.Geometry.Point(W.map.getCenter().lon, W.map.getCenter().lat).transform('EPSG:900913', 'EPSG:4326');
+            let center = this.wmeSDK.Map.getMapCenter();
             return {
-                lon: center.x,
-                lat: center.y,
+                lon: center.lon,
+                lat: center.lat,
             };
         }
         _zoom() {
-            return W.map.getZoom() - 1;
+            return this.wmeSDK.Map.getZoomLevel() - 1;
         }
         update() {
             let center = this._center();
@@ -160,8 +161,8 @@
      * Google Maps
      */
     class GooglePreview extends MapPreview {
-        constructor(container, settings) {
-            super('Google', container, settings);
+        constructor(container, settings, wmeSDK) {
+            super('Google', container, settings, wmeSDK);
         }
         async render() {
             let pos = this._center();
@@ -176,7 +177,7 @@
                 zoomControl: this.controls,
             });
             // Setup handler
-            W.map.events.register('moveend', null, () => this.update());
+            this.wmeSDK.Events.on({ eventName: 'wme-map-move-end', eventHandler: () => this.update() });
         }
         _update(lat, lon, zoom) {
             this.map.setZoom(zoom);
@@ -187,8 +188,8 @@
      * Open Street Maps
      */
     class OSMPreview extends MapPreview {
-        constructor(container, settings) {
-            super('OSM', container, settings);
+        constructor(container, settings, wmeSDK) {
+            super('OSM', container, settings, wmeSDK);
         }
         async render() {
             let pos = this._center();
@@ -212,7 +213,7 @@
                 maxZoom: 18
             }));
             // Setup handler
-            W.map.events.register('moveend', null, () => this.update());
+            this.wmeSDK.Events.on({ eventName: 'wme-map-move-end', eventHandler: () => this.update() });
         }
         _update(lat, lon, zoom) {
             this.map.setZoom(zoom);
@@ -291,11 +292,11 @@
             modal.inject();
             this.log('show preview map', this.settings.get('map'));
             if (this.settings.get('map') === 'google') {
-                let Google = new GooglePreview(map, this.settings);
+                let Google = new GooglePreview(map, this.settings, this.wmeSDK);
                 Google.render();
             }
             else if (this.settings.get('map') === 'osm') {
-                let OSM = new OSMPreview(map, this.settings);
+                let OSM = new OSMPreview(map, this.settings, this.wmeSDK);
                 OSM.render();
             }
             else {

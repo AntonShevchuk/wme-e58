@@ -8,10 +8,11 @@ export class MapPreview {
   map: any
   wrapper: HTMLDivElement
   settings: any
+  wmeSDK: any
   controls: boolean
   interactive: boolean
 
-  constructor (uid, container, settings) {
+  constructor (uid: string, container: any, settings: any, wmeSDK: any) {
     this.uid = uid
     this.map = null
     this.wrapper = this._wrapper()
@@ -20,6 +21,7 @@ export class MapPreview {
     container.style.height = '256px'
 
     this.settings = settings
+    this.wmeSDK = wmeSDK
     this.controls = settings.get('options', 'controls')
     this.interactive = settings.get('options', 'interactive')
   }
@@ -55,16 +57,15 @@ export class MapPreview {
   }
 
   _center () {
-    let center = new OpenLayers.Geometry.Point(W.map.getCenter().lon, W.map.getCenter().lat).transform('EPSG:900913', 'EPSG:4326')
-
+    let center = this.wmeSDK.Map.getMapCenter()
     return {
-      lon: center.x,
-      lat: center.y,
+      lon: center.lon,
+      lat: center.lat,
     }
   }
 
   _zoom () {
-    return W.map.getZoom() - 1
+    return this.wmeSDK.Map.getZoomLevel() - 1
   }
 
   update () {
@@ -81,8 +82,8 @@ export class MapPreview {
  * Google Maps
  */
 export class GooglePreview extends MapPreview {
-  constructor (container, settings) {
-    super('Google', container, settings)
+  constructor (container: any, settings: any, wmeSDK: any) {
+    super('Google', container, settings, wmeSDK)
   }
 
   async render () {
@@ -99,7 +100,7 @@ export class GooglePreview extends MapPreview {
     })
 
     // Setup handler
-    W.map.events.register('moveend', null, () => this.update())
+    this.wmeSDK.Events.on({ eventName: 'wme-map-move-end', eventHandler: () => this.update() })
   }
 
   _update (lat, lon, zoom) {
@@ -112,8 +113,8 @@ export class GooglePreview extends MapPreview {
  * Open Street Maps
  */
 export class OSMPreview extends MapPreview {
-  constructor (container, settings) {
-    super('OSM', container, settings)
+  constructor (container: any, settings: any, wmeSDK: any) {
+    super('OSM', container, settings, wmeSDK)
   }
 
   async render () {
@@ -140,7 +141,7 @@ export class OSMPreview extends MapPreview {
     }))
 
     // Setup handler
-    W.map.events.register('moveend', null, () => this.update())
+    this.wmeSDK.Events.on({ eventName: 'wme-map-move-end', eventHandler: () => this.update() })
   }
 
   _update (lat, lon, zoom) {

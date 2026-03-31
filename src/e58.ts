@@ -108,10 +108,10 @@ export class E58 extends WMEBase {
     this.log('show preview map', this.settings.get('map'))
 
     if (this.settings.get('map') === 'google') {
-      let Google = new GooglePreview(map, this.settings)
+      let Google = new GooglePreview(map, this.settings, this.wmeSDK)
       Google.render()
     } else if (this.settings.get('map') === 'osm') {
-      let OSM = new OSMPreview(map, this.settings)
+      let OSM = new OSMPreview(map, this.settings, this.wmeSDK)
       OSM.render()
     } else {
       // disabled
