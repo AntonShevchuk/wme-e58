@@ -172,7 +172,7 @@
                 mapTypeControl: false,
                 streetViewControl: false,
                 disableDefaultUI: !this.controls,
-                gestureHandling: this.interactive ? 'cooperative ' : 'none',
+                gestureHandling: this.interactive ? 'cooperative' : 'none',
                 zoomControl: this.controls,
             });
             // Setup handler
@@ -199,7 +199,7 @@
                 mapTypeControl: false,
                 streetViewControl: false,
                 disableDefaultUI: !this.controls,
-                gestureHandling: this.interactive ? 'cooperative ' : 'none',
+                gestureHandling: this.interactive ? 'cooperative' : 'none',
                 zoomControl: this.controls,
             });
             // Define OSM map type pointing at the OpenStreetMap tile server

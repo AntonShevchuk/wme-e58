@@ -94,7 +94,7 @@ export class GooglePreview extends MapPreview {
       mapTypeControl: false,
       streetViewControl: false,
       disableDefaultUI: !this.controls,
-      gestureHandling: this.interactive ? 'cooperative ' : 'none',
+      gestureHandling: this.interactive ? 'cooperative' : 'none',
       zoomControl: this.controls,
     })
 
@@ -125,7 +125,7 @@ export class OSMPreview extends MapPreview {
       mapTypeControl: false,
       streetViewControl: false,
       disableDefaultUI: !this.controls,
-      gestureHandling: this.interactive ? 'cooperative ' : 'none',
+      gestureHandling: this.interactive ? 'cooperative' : 'none',
       zoomControl: this.controls,
     })
 
