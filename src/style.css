@@ -27,6 +27,9 @@
 div.e58.e58-text {
   margin: 15px 0;
 }
+.e58 .button-toolbar {
+  padding: 8px;
+}
 p.e58-info {
   border-top: 1px solid #ccc;
   color: #777;
