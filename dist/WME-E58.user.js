@@ -240,8 +240,7 @@
                 image: GM_info.script.icon
             });
             tab.addText('description', I18n.t(this.name).description);
-            let button = tab.addButton('preview', I18n.t(this.name).title, '', () => this.toggleMap());
-            button.html().className += ' waze-btn-blue';
+            tab.addButton('preview', I18n.t(this.name).title, '', () => this.toggleMap(), { className: 'waze-btn waze-btn-small waze-btn-white waze-btn-blue' });
             // Setup providers map settings
             let fsMap = this.helper.createFieldset(I18n.t(this.name).maps.title);
             for (let i = 0; i < settings.maps.length; i++) {
