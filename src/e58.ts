@@ -5,20 +5,12 @@ import { GooglePreview, OSMPreview } from './map-preview'
  * E58 Map Preview class
  */
 export class E58 extends WMEBase {
-  helper: any
-
   constructor (name, settings) {
     super(name, settings)
-
-    this.initHelper()
 
     this.initTab(settings)
 
     this.initShortcuts()
-  }
-
-  initHelper() {
-    this.helper = new WMEUIHelper(this.name)
   }
 
   initTab (settings) {
@@ -74,18 +66,7 @@ export class E58 extends WMEBase {
   }
 
   initShortcuts () {
-    let shortcut = {
-      callback: () => this.toggleMap(),
-      description: I18n.t(this.name).description,
-      shortcutId: this.id,
-      shortcutKeys: 'A+N',
-    };
-
-    if (this.wmeSDK.Shortcuts.areShortcutKeysInUse({ shortcutKeys: shortcut.shortcutKeys })) {
-      this.log('Shortcut already in use')
-      shortcut.shortcutKeys = null
-    }
-    this.wmeSDK.Shortcuts.createShortcut(shortcut);
+    this.createShortcut('toggle', I18n.t(this.name).description, 'A+N', () => this.toggleMap())
   }
 
   /**

@@ -227,12 +227,8 @@
     class E58 extends WMEBase {
         constructor(name, settings) {
             super(name, settings);
-            this.initHelper();
             this.initTab(settings);
             this.initShortcuts();
-        }
-        initHelper() {
-            this.helper = new WMEUIHelper(this.name);
         }
         initTab(settings) {
             let tab = this.helper.createTab(I18n.t(this.name).title, {
@@ -269,17 +265,7 @@
             tab.inject();
         }
         initShortcuts() {
-            let shortcut = {
-                callback: () => this.toggleMap(),
-                description: I18n.t(this.name).description,
-                shortcutId: this.id,
-                shortcutKeys: 'A+N',
-            };
-            if (this.wmeSDK.Shortcuts.areShortcutKeysInUse({ shortcutKeys: shortcut.shortcutKeys })) {
-                this.log('Shortcut already in use');
-                shortcut.shortcutKeys = null;
-            }
-            this.wmeSDK.Shortcuts.createShortcut(shortcut);
+            this.createShortcut('toggle', I18n.t(this.name).description, 'A+N', () => this.toggleMap());
         }
         /**
          * Show modal with map preview
