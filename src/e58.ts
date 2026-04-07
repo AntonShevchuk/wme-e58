@@ -50,15 +50,17 @@ export class E58 extends WMEBase {
 
     // Setup options for maps
     let fsOptions = this.helper.createFieldset(I18n.t(this.name).options.title)
+    let checkboxes: Record<string, any> = {}
     for (let item in settings.options) {
       if (settings.options.hasOwnProperty(item)) {
-        fsOptions.addCheckbox(
-          'options-' + item,
-          I18n.t(this.name).options[item],
-          (event) => this.settings.set(['options', item], event.target.checked),
-          this.settings.get('options', item))
+        checkboxes['options-' + item] = {
+          title: I18n.t(this.name).options[item],
+          callback: (event: any) => this.settings.set(['options', item], event.target.checked),
+          checked: this.settings.get('options', item),
+        }
       }
     }
+    fsOptions.addCheckboxes(checkboxes)
     tab.addElement(fsOptions)
 
     tab.addDiv('text', I18n.t(this.name).help)

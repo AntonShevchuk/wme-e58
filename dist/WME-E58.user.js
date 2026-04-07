@@ -250,11 +250,17 @@
             tab.addElement(fsMap);
             // Setup options for maps
             let fsOptions = this.helper.createFieldset(I18n.t(this.name).options.title);
+            let checkboxes = {};
             for (let item in settings.options) {
                 if (settings.options.hasOwnProperty(item)) {
-                    fsOptions.addCheckbox('options-' + item, I18n.t(this.name).options[item], (event) => this.settings.set(['options', item], event.target.checked), this.settings.get('options', item));
+                    checkboxes['options-' + item] = {
+                        title: I18n.t(this.name).options[item],
+                        callback: (event) => this.settings.set(['options', item], event.target.checked),
+                        checked: this.settings.get('options', item),
+                    };
                 }
             }
+            fsOptions.addCheckboxes(checkboxes);
             tab.addElement(fsOptions);
             tab.addDiv('text', I18n.t(this.name).help);
             tab.addText('info', '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version);
