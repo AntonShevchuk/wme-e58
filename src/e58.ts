@@ -15,23 +15,23 @@ export class E58 extends WMEBase {
 
   initTab (settings) {
     let tab = this.helper.createTab(
-      I18n.t(this.name).title,
+      WMEUI.t(NAME).title,
       {
         sidebar: this.wmeSDK.Sidebar,
         image: GM_info.script.icon
       }
     )
-    tab.addText('description', I18n.t(this.name).description)
-    tab.addButton('preview', I18n.t(this.name).title, '', () => this.toggleMap(), { className: 'waze-btn waze-btn-small waze-btn-white waze-btn-blue' })
+    tab.addText('description', WMEUI.t(NAME).description)
+    tab.addButton('preview', WMEUI.t(NAME).title, '', () => this.toggleMap(), { className: 'waze-btn waze-btn-small waze-btn-white waze-btn-blue' })
 
     // Setup providers map settings
-    let fsMap = this.helper.createFieldset(I18n.t(this.name).maps.title)
+    let fsMap = this.helper.createFieldset(WMEUI.t(NAME).maps.title)
 
     for (let i = 0; i < settings.maps.length; i++) {
       let map = settings.maps[i]
       fsMap.addRadio(
         'maps-' + map,
-        I18n.t(this.name).maps[map],
+        WMEUI.t(NAME).maps[map],
         () => this.settings.set(['map'], map),
         'maps',
         map,
@@ -41,12 +41,12 @@ export class E58 extends WMEBase {
     tab.addElement(fsMap)
 
     // Setup options for maps
-    let fsOptions = this.helper.createFieldset(I18n.t(this.name).options.title)
+    let fsOptions = this.helper.createFieldset(WMEUI.t(NAME).options.title)
     let checkboxes: Record<string, any> = {}
     for (let item in settings.options) {
       if (settings.options.hasOwnProperty(item)) {
         checkboxes['options-' + item] = {
-          title: I18n.t(this.name).options[item],
+          title: WMEUI.t(NAME).options[item],
           callback: (event: any) => this.settings.set(['options', item], event.target.checked),
           checked: this.settings.get('options', item),
         }
@@ -55,7 +55,7 @@ export class E58 extends WMEBase {
     fsOptions.addCheckboxes(checkboxes)
     tab.addElement(fsOptions)
 
-    tab.addDiv('text', I18n.t(this.name).help)
+    tab.addDiv('text', WMEUI.t(NAME).help)
     tab.addText(
       'info',
       '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version
@@ -66,7 +66,7 @@ export class E58 extends WMEBase {
   }
 
   initShortcuts () {
-    this.createShortcut('toggle', I18n.t(this.name).description, 'A+N', () => this.toggleMap())
+    this.createShortcut('toggle', WMEUI.t(NAME).description, 'A+N', () => this.toggleMap())
   }
 
   /**
@@ -81,7 +81,7 @@ export class E58 extends WMEBase {
 
     /** @type {WMEUIHelperModal} */
     let modal = this.helper.createModal(
-      I18n.t(this.name).title
+      WMEUI.t(NAME).title
     )
     // Setup Preview Map element
     let map = modal.addDiv('map-preview').html()
@@ -97,7 +97,7 @@ export class E58 extends WMEBase {
       OSM.render()
     } else {
       // disabled
-      map.innerText = I18n.t(this.name).maps.description
+      map.innerText = WMEUI.t(NAME).maps.description
     }
   }
 }
