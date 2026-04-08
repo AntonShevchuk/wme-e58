@@ -20,14 +20,14 @@
   padding: 0;
   margin: 0 8px !important;
 }
-.e58 fieldset.e58 div.controls label {
+.e58 fieldset.e58 .wme-ui-fieldset-content label {
   white-space: normal;
   font-weight: 400;
 }
 div.e58.e58-text {
   margin: 15px 0;
 }
-.e58 .button-toolbar {
+.e58 .wme-ui-tab-content {
   padding: 8px;
 }
 p.e58-info {
