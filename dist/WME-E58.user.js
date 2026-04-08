@@ -241,7 +241,7 @@
             let fsMap = this.helper.createFieldset(WMEUI.t(NAME).maps.title);
             for (let i = 0; i < settings.maps.length; i++) {
                 let map = settings.maps[i];
-                fsMap.addRadio('maps-' + map, WMEUI.t(NAME).maps[map], () => this.settings.set(['map'], map), 'maps', map, this.settings.get('map') === map);
+                fsMap.addRadio('maps-' + map, WMEUI.t(NAME).maps[map], () => this.settings.set('map', map), 'maps', map, this.settings.get('map') === map);
             }
             tab.addElement(fsMap);
             // Setup options for maps
@@ -251,7 +251,7 @@
                 if (settings.options.hasOwnProperty(item)) {
                     checkboxes['options-' + item] = {
                         title: WMEUI.t(NAME).options[item],
-                        callback: (event) => this.settings.set(['options', item], event.target.checked),
+                        callback: (event) => this.settings.set('options', item, event.target.checked),
                         checked: this.settings.get('options', item),
                     };
                 }

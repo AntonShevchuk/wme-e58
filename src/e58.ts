@@ -32,7 +32,7 @@ export class E58 extends WMEBase {
       fsMap.addRadio(
         'maps-' + map,
         WMEUI.t(NAME).maps[map],
-        () => this.settings.set(['map'], map),
+        () => this.settings.set('map', map),
         'maps',
         map,
         this.settings.get('map') === map
@@ -47,7 +47,7 @@ export class E58 extends WMEBase {
       if (settings.options.hasOwnProperty(item)) {
         checkboxes['options-' + item] = {
           title: WMEUI.t(NAME).options[item],
-          callback: (event: any) => this.settings.set(['options', item], event.target.checked),
+          callback: (event: any) => this.settings.set('options', item, event.target.checked),
           checked: this.settings.get('options', item),
         }
       }
