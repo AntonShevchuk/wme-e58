@@ -1,5 +1,3 @@
-export const NAME = 'E58'
-
 export const TRANSLATION = {
   'en': {
     // Tab title

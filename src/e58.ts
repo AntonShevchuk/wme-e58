@@ -1,4 +1,4 @@
-import { NAME } from './translations'
+import { NAME } from './name'
 import { GooglePreview, OSMPreview } from './map-preview'
 
 /**

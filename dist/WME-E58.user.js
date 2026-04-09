@@ -2,7 +2,7 @@
 // @name         WME E58 Map's previews
 // @name:uk      WME 🇺🇦 E58 Map's previews
 // @name:ru      WME 🇺🇦 E58 Map's previews
-// @version      0.9.0
+// @version      0.10.0
 // @description  Create small previews for chosen map providers
 // @description:uk Створює невеличку карту для перегляду
 // @description:ru Создаёт небольшую карту для просмотра
